@@ -1,0 +1,93 @@
+Option Explicit
+Private Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+Sub run()
+    Dim sheet As Worksheet
+    Dim m As Integer
+    Dim imgs_num As Integer
+    Dim s As Double
+    Dim V As Integer
+    Dim h_offset As Integer
+    Dim v_offset As Integer
+    Dim i As Integer
+    
+    Set sheet = ThisWorkbook.Worksheets("video")
+    V = sheet.Cells(5, 2).Value
+    h_offset = sheet.Cells(7, 2).Value
+    v_offset = sheet.Cells(9, 2).Value
+    imgs_num = sheet.Cells(11, 2)
+    s = sheet.Cells(13, 2)
+    m = 1
+    
+    Do While m <= imgs_num
+        
+        i = m * V + v_offset + 1
+        sheet.Cells(i, h_offset + 2).Select
+        m = m + 1
+        Sleep s * 1000
+        
+    Loop
+    
+End Sub
+
+
+Sub color()
+    Dim m As Integer
+    Dim n As Integer
+    Dim i As Integer
+    
+    Dim b As Integer
+    Dim g As Integer
+    Dim r As Integer
+    
+    Dim H As Integer
+    Dim V As Integer
+    Dim imgs_num As Integer
+    
+    Dim h_offset As Integer
+    Dim v_offset As Integer
+    
+    Dim sheet As Worksheet
+    
+    
+    Set sheet = ThisWorkbook.Worksheets("video")
+    H = sheet.Cells(3, 2).Value
+    V = sheet.Cells(5, 2).Value
+    h_offset = sheet.Cells(7, 2).Value
+    v_offset = sheet.Cells(9, 2).Value
+    imgs_num = sheet.Cells(11, 2)
+    
+    
+    m = 2
+    i = 0
+    
+    Do While 1 = 1
+        i = (m - v_offset) / V
+        If i > imgs_num Then
+            Exit Do
+        End If
+    
+        sheet.Cells(15, 2).Value = (i / imgs_num) * 100
+    
+        For n = 2 To (H + 1)
+        
+            Set sheet = ThisWorkbook.Worksheets("b")
+            b = sheet.Cells(m, n).Value
+            
+            
+            Set sheet = ThisWorkbook.Worksheets("g")
+            g = sheet.Cells(m, n).Value
+            
+            Set sheet = ThisWorkbook.Worksheets("r")
+            r = sheet.Cells(m, n).Value
+                    
+            
+            Set sheet = ThisWorkbook.Worksheets("video")
+            sheet.Cells(m + v_offset, n + h_offset).Interior.color = RGB(r, g, b)
+        
+        Next
+        m = m + 1
+    
+    Loop
+    
+End Sub
+
